@@ -63,16 +63,25 @@ serverSocket.on('connection', socket => {
     })
 
     //lav timer på 10 sekunder
-    let time = 10
+    socket.on('playTime', ()=>{
+        let time = 10
 
+        setInterval( ()=>{
+            serverSocket.emit('time', time)
+            time--
+            if(time==0){
+                //stop spillet
+                serverSocket.emit('result', players)
+            }
+        }, 1000)
+    })
 
-    setInterval( ()=>{
-        serverSocket.emit('time', time)
-        time--
-        if(time==0)
-        //stop spillet
-            serverSocket.emit('result', players)
-    }, 1000)
+    socket.on('timerStop', ()=>{
+        let winner = players[0].name
+        
+
+        
+    })
 
     socket.on('click', ()=>{
 
